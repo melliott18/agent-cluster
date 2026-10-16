@@ -51,8 +51,8 @@ dependencies. Model/runtime/UI choices remain open. Internet tools, if selected,
 are separate from where inference and private task data run.
 
 Keep credentials, raw transcripts, private host addresses, private repository
-identities, and raw host output out of tracked files here. Repository visibility
-has not been verified; use public-safe summaries. Detailed host evidence belongs
+identities, and raw host output out of tracked files here. This repository is
+public, verified October 15, 2026; use public-safe summaries. Detailed host evidence belongs
 in private Homelab records; raw project evidence may use ignored `local/`.
 
 ## Git conventions

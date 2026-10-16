@@ -23,7 +23,10 @@ The October 14 capacity assessment records roughly 30.28 GiB usable host RAM,
 12 GiB of guest allocations, a container capped at 18.63 GiB, and another
 uncapped container. Sampled available memory is not a guaranteed deployment
 budget. Existing workloads and planned GitLab compete for the same capacity.
-See the private [assessment](../homelab/docs/logs/2026-10-14-gitlab-sizing.md).
+The detailed source is private, local uncommitted Homelab evidence at
+`docs/logs/2026-10-14-gitlab-sizing.md`; it is not yet available in a fresh clone.
+Use Homelab's committed [project state](../homelab/PROJECT_STATE.md) as the
+portable baseline and recheck live capacity before allocation.
 
 Agent control, worker, and inference guests remain planned. An October 13
 inspection found an existing Ollama API in a retained workload, but successful
