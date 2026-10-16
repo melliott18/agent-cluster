@@ -1,7 +1,8 @@
 # Agent Cluster project state
 
-Updated October 15, 2026. Planning only; this repository has no application,
-selected model, or deployed agent runtime.
+Updated October 15, 2026. The dedicated `agent-cluster-01` VM foundation is
+deployed and tested under [homelab#48](https://github.com/melliott18/homelab/issues/48).
+This repository still has no application, selected model, or deployed agent runtime.
 
 ## Owner requirements
 
@@ -19,20 +20,25 @@ infrastructure facts. Its September 29 hardware baseline records a Ryzen 7
 is reserved for NAS under accepted decision 0008. Ubuntu Server hosts workload
 VMs, with optional containers inside guests, under decision 0007.
 
-The October 14 capacity assessment records roughly 30.28 GiB usable host RAM,
-12 GiB of guest allocations, a container capped at 18.63 GiB, and another
-uncapped container. Sampled available memory is not a guaranteed deployment
-budget. Existing workloads and planned GitLab compete for the same capacity.
-The detailed source is private, local uncommitted Homelab evidence at
-`docs/logs/2026-10-14-gitlab-sizing.md`; it is not yet available in a fresh clone.
-Use Homelab's committed [project state](https://github.com/melliott18/homelab/blob/main/PROJECT_STATE.md) as the
-portable baseline and recheck live capacity before allocation.
+Homelab provisioned the initial guest with 4 vCPUs, **4 GiB RAM** and a 100 GiB
+disk. This supports OS setup and light development; the proposed 12 GiB model
+allocation requires a new capacity decision. Autostart is disabled and a
+VM-specific host memory guard is enabled. Key-only owner/maintenance access,
+a non-sudo runtime account, guest reboot, disk persistence and managed save/resume
+were verified. No model software or GPU passthrough was installed.
 
-Agent control, worker, and inference guests remain planned. An October 13
-inspection found an existing Ollama API in a retained workload, but successful
-GPU inference and its availability for this project are unvalidated. NAS and
-independent recovery are also unfinished. These are dated repository findings;
-no live host inspection accompanied this project's setup.
+The October 15 live inspection found existing workloads competing for RAM and
+GPU access already configured for a retained workload. Available memory samples
+do not establish a sustained inference budget. GPU ownership and capacity remain
+Homelab's responsibility; independent backup/recovery remains unfinished.
+
+Detailed evidence and access instructions are private Homelab files
+`docs/logs/2026-10-15-agent-cluster-vm.md` and `docs/runbooks/agent-cluster-vm.md`.
+They currently exist on the local `feature/agent-cluster-vm` branch in the isolated
+`../homelab-agent-cluster-vm` worktree, commit `9547b71`, pending
+publication/integration into main.
+The issue above is the portable completion pointer. Do not assume an older
+Homelab main checkout already contains this result.
 
 ## Architecture direction
 
@@ -44,7 +50,8 @@ and should remain accessible when NAS is unavailable.
 
 The earlier brainstorming suggested Open WebUI, Ollama or llama.cpp, a Python
 agent service potentially using LangGraph, and PostgreSQL. These remain
-candidates; no stack, model, VM sizing, or GPU assignment has been selected.
+candidates; no application stack, model, or GPU assignment has been selected.
+The initial VM allocation is implemented as described above.
 Historical cloud-provider options in Homelab are optional broader context;
 this project's required core is local.
 
@@ -52,8 +59,8 @@ this project's required core is local.
 
 1. Select one useful initial task alongside chat, such as local document search
    or a coding task that produces a tested diff.
-2. Recheck host capacity and existing GPU ownership through Homelab before
-   proposing allocations. Resolve shared workload budgets and inference placement.
+2. Resolve shared workload budgets and GPU ownership through Homelab before
+   increasing the VM allocation or adding inference.
 3. Compare suitable local models on the chosen task, including tool execution,
    memory use, context length, and interactive latency.
 4. Select a minimal runtime with durable jobs, bounded retries, cancellation,
