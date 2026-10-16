@@ -97,11 +97,12 @@ trial caused cache reclaim at the inference cap but no OOM or inference swap.
 
 Homelab owns the [current capacity result](https://github.com/melliott18/homelab/blob/main/docs/logs/2026-10-15-shared-inference.md)
 and [window switching](https://github.com/melliott18/homelab/blob/main/docs/runbooks/shared-inference.md).
-These private records require Homelab access. New inference code/results are
-**local on `feature/shared-inference` in both projects**, not yet on main; use
-`../homelab-agent-cluster-vm` for that handoff. The earlier UI foundation and
-[placement decision](https://github.com/melliott18/homelab/blob/main/docs/decisions/0013-shared-gpu-inference.md)
-are already published. Preserve unrelated work in the original checkouts.
+These private records require Homelab access. Inference code, runbooks and results
+are published on **`main` in both projects**, alongside the earlier UI foundation
+and [placement decision](https://github.com/melliott18/homelab/blob/main/docs/decisions/0013-shared-gpu-inference.md).
+Preserve unrelated work in older checkouts; read committed `main` or use the
+isolated Homelab worktree at `../homelab-agent-cluster-vm`. Credentials, access
+pins and raw evidence remain local and ignored; a fresh clone does not include them.
 
 References: [model package](https://ollama.com/library/qwen3.5:9b-q4_K_M),
 [Ollama concurrency/local-only controls](https://docs.ollama.com/faq),

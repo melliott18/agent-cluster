@@ -56,6 +56,6 @@ rejected by the pilot gateway.
 
 Homelab owns capacity/window switching and its
 [infrastructure record](https://github.com/melliott18/homelab/blob/main/docs/logs/2026-10-15-shared-inference.md).
-New records are local on `feature/shared-inference` in both projects until
-published. Private host addresses and raw measurements remain in Homelab;
+Implementation, runbooks and results are published on both projects' `main`
+branches. Private host addresses and raw measurements remain in Homelab;
 credentials and API verification artifacts remain ignored under `local/inference/`.

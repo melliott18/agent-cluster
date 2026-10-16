@@ -13,9 +13,9 @@ in the private Open WebUI database, not in Git or browser-side direct connection
 The host currently runs an **inference window**: the management desktop's session
 is saved and the idle CI guest is shut down. New CI jobs wait. Homelab owns
 [window switching and recovery](https://github.com/melliott18/homelab/blob/main/docs/runbooks/shared-inference.md).
-Until this feature is published, that new record is on local
-`feature/shared-inference` in `../homelab-agent-cluster-vm`; main links become
-available after both projects are merged.
+The application and infrastructure records are published on both projects' `main`
+branches. Homelab links require private repository access. Preserve unrelated
+work in older checkouts; use committed `main` or the isolated Homelab worktree.
 
 The UI VM has a 2.5 GiB current/boot memory target with a retained 4 GiB maximum.
 Its 1.5 GiB UI container cap is unchanged. Revisit capacity before adding workers,
