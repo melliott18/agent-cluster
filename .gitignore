@@ -1,0 +1,9 @@
+# Local evidence, credentials, caches, and model weights stay outside Git.
+local/
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+.DS_Store
+models/
