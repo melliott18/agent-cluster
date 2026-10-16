@@ -47,7 +47,8 @@ invent current host state or assume private source links are publicly readable.
 ## Local operation and data
 
 The core system must run locally without cloud inference or subscription
-dependencies. Model/runtime/UI choices remain open. Internet tools, if selected,
+dependencies. Read `PROJECT_STATE.md` for selected components and deployment
+status. Internet tools, if selected,
 are separate from where inference and private task data run.
 
 Keep credentials, raw transcripts, private host addresses, private repository

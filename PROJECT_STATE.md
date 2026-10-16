@@ -2,7 +2,9 @@
 
 Updated October 15, 2026. The dedicated `agent-cluster-01` VM foundation is
 deployed and tested under [homelab#48](https://github.com/melliott18/homelab/issues/48).
-This repository still has no application, selected model, or deployed agent runtime.
+Open WebUI is now deployed under [agent-cluster#1](https://github.com/melliott18/agent-cluster/issues/1).
+[Access/runbook](docs/runbooks/open-webui.md) · [Result](docs/logs/2026-10-15-open-webui.md).
+The interface has no model connection yet; inference and the custom worker remain pending.
 
 ## Owner requirements
 
@@ -48,12 +50,13 @@ and an inference API. Logical roles do not require allocating every proposed
 VM immediately. The controller's live task state belongs on guest-local storage
 and should remain accessible when NAS is unavailable.
 
-The earlier brainstorming suggested Open WebUI, Ollama or llama.cpp, a Python
-agent service potentially using LangGraph, and PostgreSQL. These remain
-candidates; no application stack, model, or GPU assignment has been selected.
-The initial VM allocation is implemented as described above.
-Historical cloud-provider options in Homelab are optional broader context;
-this project's required core is local.
+The owner accepted Open WebUI, shared Ollama/Qwen3.5 9B and a lightweight
+Python/LangGraph/SQLite agent direction, with UI installation first. Open WebUI
+v0.12.2-slim now runs in the existing 4 GiB VM with a persistent volume and
+1.5 GiB container memory ceiling. Owner authentication, disabled signup,
+loopback access and persistence after container replacement passed. Docker
+Engine 29.9.1 and Compose 5.6.0 are installed. No model or custom agent worker
+is running yet; inference loading and tool quality remain untested.
 
 ## Shared inference direction — October 15
 
@@ -61,26 +64,30 @@ Owner decision: preserve the existing benchmark workload's direct GPU access
 and plan a shared local inference service. Do not pass the GPU exclusively to
 this VM. The VM remains the home for chat, agent tools and durable task state.
 
-Proposed first stack: Docker Engine/Compose and Open WebUI in the existing
-4 GiB VM; one Python/LangGraph worker with SQLite for durable tasks; one shared
-Ollama endpoint running `qwen3.5:9b-q4_K_M`, initially 8K context, one loaded model
-and one inference request at a time. Start with a bounded document-search/report
-task and restricted project files. These software choices remain recommendations,
-not accepted deployment or performance claims.
+Accepted first stack: Open WebUI in the existing 4 GiB VM; one Python/LangGraph
+worker with SQLite for durable tasks; one shared Ollama endpoint targeting
+`qwen3.5:9b-q4_K_M`, initially 8K context, one loaded model and one inference
+request at a time. The first bounded document-search/report task remains a
+proposed pilot. UI installation is complete; the other stages remain pending.
 
-Proposed inference placement is a dedicated GPU-enabled LXD container, separate
-from the benchmark workload. This needs an explicit scoped exception to the
-older inference-in-a-VM direction, along with Homelab capacity and access design.
+The owner accepted the shared service direction while preserving benchmark GPU
+access. A dedicated GPU-enabled LXD inference container is a scoped exception
+to the older inference-in-a-VM direction; agent tools/state stay in the VM.
 GPU sharing does not reserve VRAM or schedule arbitrary benchmark jobs. Use
-cooperative benchmark/inference windows and unload the model before benchmark
-runs; retain existing GPU access. Do not infer exclusivity from an idle sample.
+cooperative workload windows and unload the model before benchmark runs.
 
-The latest read-only Homelab inspection found an idle GPU and an existing Ollama
-service with no models. Memory admission is still unresolved: retain the current
-VM allocation and host reserve, and budget inference loading before deployment.
-No software, resource allocation, driver, network or workload state was changed.
-This planning update is local on `docs/shared-inference-plan` in both projects;
-the deployed VM records remain published on main.
+Homelab's initial budget is **8 GiB inference system RAM**, **10 GiB host reserve**
+and **2 GiB margin**: require at least 20 GiB host MemAvailable before starting.
+Stop inference first below 12 GiB available, ahead of the existing agent VM's
+10 GiB save threshold. These proposed controls are not installed, and the model's
+actual loading footprint must be measured. Current headroom is insufficient;
+no existing guest/container was stopped or resized to manufacture capacity.
+
+Detailed budget evidence is in Homelab
+`docs/logs/2026-10-15-agent-webui-budget.md`, on local `feature/open-webui` in
+`../homelab-agent-cluster-vm`. This application's matching local branch contains
+the Compose definition, runbook and result. The new installation/budget records
+are not yet published; the original VM records remain on main.
 
 References: [model package](https://ollama.com/library/qwen3.5:9b-q4_K_M),
 [Ollama concurrency/local-only controls](https://docs.ollama.com/faq),
@@ -107,7 +114,8 @@ October 15: the owner accepted the shared organization recorded in Homelab
 All three projects now route through its
 [registry](https://github.com/melliott18/homelab/blob/main/docs/reference/projects.md) and
 [workflow](https://github.com/melliott18/homelab/blob/main/docs/reference/project-workflow.md). This changes the
-documentation workflow; runtime/model selection remains open.
+documentation workflow. The later accepted application direction and current
+deployment stage are recorded above.
 
 Use [the integration guide](docs/homelab-integration.md) for ownership and
 reading order. Keep dated outcomes here as implementation progresses and link

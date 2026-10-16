@@ -1,0 +1,63 @@
+name: agent-cluster
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:v0.12.2-slim@sha256:34db70a8e8f305dc996c4b459db0949b715400a489ca8a2d1a2a31ae5ddc67bb
+    restart: unless-stopped
+    user: "10001:0"
+    ports:
+      - "127.0.0.1:3000:8080"
+    env_file:
+      - runtime.env
+    environment:
+      WEBUI_AUTH: "true"
+      WEBUI_URL: http://127.0.0.1:8088
+      CORS_ALLOW_ORIGIN: http://127.0.0.1:8088
+      ENABLE_SIGNUP: "false"
+      WEBUI_SECRET_KEY_FILE: /app/backend/data/.webui_secret_key
+      OFFLINE_MODE: "true"
+      HF_HUB_OFFLINE: "1"
+      ENABLE_VERSION_UPDATE_CHECK: "false"
+      ENABLE_OLLAMA_API: "false"
+      ENABLE_OPENAI_API: "false"
+      ENABLE_DIRECT_CONNECTIONS: "false"
+      ENABLE_DIRECT_INTEGRATIONS: "false"
+      ENABLE_COMMUNITY_SHARING: "false"
+      ENABLE_WEB_SEARCH: "false"
+      ENABLE_CODE_EXECUTION: "false"
+      ENABLE_CODE_INTERPRETER: "false"
+      RAG_EMBEDDING_ENGINE: ollama
+      UVICORN_WORKERS: "1"
+    volumes:
+      - type: volume
+        source: webui-data
+        target: /app/backend/data
+        volume:
+          nocopy: true
+    networks:
+      - private
+    mem_limit: 1536m
+    memswap_limit: 1536m
+    cpus: 2
+    pids_limit: 512
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 90s
+      retries: 3
+volumes:
+  webui-data:
+    name: agent-cluster-webui-data
+    external: true
+networks:
+  private:
+    driver: bridge
