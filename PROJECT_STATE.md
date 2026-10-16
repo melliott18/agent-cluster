@@ -83,11 +83,15 @@ Stop inference first below 12 GiB available, ahead of the existing agent VM's
 actual loading footprint must be measured. Current headroom is insufficient;
 no existing guest/container was stopped or resized to manufacture capacity.
 
-Detailed budget evidence is in Homelab
-`docs/logs/2026-10-15-agent-webui-budget.md`, on local `feature/open-webui` in
-`../homelab-agent-cluster-vm`. This application's matching local branch contains
-the Compose definition, runbook and result. The new installation/budget records
-are not yet published; the original VM records remain on main.
+Homelab owns the detailed
+[budget evidence](https://github.com/melliott18/homelab/blob/main/docs/logs/2026-10-15-agent-webui-budget.md)
+and [placement decision](https://github.com/melliott18/homelab/blob/main/docs/decisions/0013-shared-gpu-inference.md).
+These private records require Homelab access. The installation and budget records
+are published on both projects' `main` branches, alongside this project's
+[Compose definition](deploy/open-webui/compose.yaml),
+[runbook](docs/runbooks/open-webui.md) and [result](docs/logs/2026-10-15-open-webui.md).
+Preserve unrelated work in older checkouts; read committed `main` or use the
+isolated Homelab worktree at `../homelab-agent-cluster-vm`.
 
 References: [model package](https://ollama.com/library/qwen3.5:9b-q4_K_M),
 [Ollama concurrency/local-only controls](https://docs.ollama.com/faq),

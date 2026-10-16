@@ -52,12 +52,12 @@ providers. No preexisting application data existed or was deleted in either repa
 ## Handoff and limitations
 
 [Runbook](../runbooks/open-webui.md) contains access, reproduction and rollback.
-Homelab owns guest package installation, current host evidence, and the memory
-budget in `docs/logs/2026-10-15-agent-webui-budget.md` on its matching local
-`feature/open-webui` branch. These new commits are not yet published; the earlier
-VM foundation remains on main. Raw host data stays in private Homelab local
-storage; public application credentials and optional upstream source inspection
-copies stay in this repository's ignored `local/open-webui/`.
+Homelab owns guest package installation, current host evidence, and the
+[memory budget](https://github.com/melliott18/homelab/blob/main/docs/logs/2026-10-15-agent-webui-budget.md).
+The installation and budget records are published on both projects' `main`
+branches. Homelab records require private repository access. Raw host data stays
+in private Homelab local storage; application credentials and optional upstream
+source inspection copies stay in this repository's ignored `local/open-webui/`.
 
 The owner's acceptance of shared inference permits a scoped LXD inference
 exception to the prior VM-only placement direction; application state and tools
