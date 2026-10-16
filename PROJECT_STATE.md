@@ -32,13 +32,13 @@ GPU access already configured for a retained workload. Available memory samples
 do not establish a sustained inference budget. GPU ownership and capacity remain
 Homelab's responsibility; independent backup/recovery remains unfinished.
 
-Detailed evidence and access instructions are private Homelab files
-`docs/logs/2026-10-15-agent-cluster-vm.md` and `docs/runbooks/agent-cluster-vm.md`.
-They currently exist on the local `feature/agent-cluster-vm` branch in the isolated
-`../homelab-agent-cluster-vm` worktree, commit `9547b71`, pending
-publication/integration into main.
-The issue above is the portable completion pointer. Do not assume an older
-Homelab main checkout already contains this result.
+Detailed evidence and access instructions are maintained on Homelab's `main`:
+[deployment result](https://github.com/melliott18/homelab/blob/main/docs/logs/2026-10-15-agent-cluster-vm.md)
+and [VM runbook](https://github.com/melliott18/homelab/blob/main/docs/runbooks/agent-cluster-vm.md).
+These private records require Homelab access. The VM changes and this handoff
+are published on both projects' default branches. When an existing Homelab
+checkout has unrelated work on another branch, read the committed `main` records
+or use its isolated VM worktree; preserve that checkout's edits.
 
 ## Architecture direction
 

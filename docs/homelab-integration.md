@@ -49,9 +49,10 @@ may not contain them until that project's ongoing work is committed.
 The initial dedicated VM is deployed under
 [homelab#48](https://github.com/melliott18/homelab/issues/48). Its OS/access and
 lifecycle checks are complete; model and agent software remain future work.
-See [project state](../PROJECT_STATE.md) for the current local branch/worktree
-location until the infrastructure records are published. Homelab owns the
-runbook at `docs/runbooks/agent-cluster-vm.md`; keep private access details there.
+The [deployment result](https://github.com/melliott18/homelab/blob/main/docs/logs/2026-10-15-agent-cluster-vm.md)
+and [VM runbook](https://github.com/melliott18/homelab/blob/main/docs/runbooks/agent-cluster-vm.md)
+are available on Homelab main, subject to private repository access. Keep private
+access details there; this project maintains the application handoff on its main.
 
 ## Responsibilities
 
