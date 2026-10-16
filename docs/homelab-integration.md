@@ -50,7 +50,9 @@ The initial dedicated VM is deployed under
 [homelab#48](https://github.com/melliott18/homelab/issues/48). Its OS/access and
 lifecycle checks are complete. Open WebUI is now installed; see the
 [application runbook](runbooks/open-webui.md) and [result](logs/2026-10-15-open-webui.md).
-Shared inference and the custom agent worker remain future work.
+Shared inference now responds through the UI; the custom agent worker remains
+future work. See the [inference runbook](runbooks/shared-inference.md) for the
+current memory window, paused desktop/CI and local branch handoff.
 The [deployment result](https://github.com/melliott18/homelab/blob/main/docs/logs/2026-10-15-agent-cluster-vm.md)
 and [VM runbook](https://github.com/melliott18/homelab/blob/main/docs/runbooks/agent-cluster-vm.md)
 are available on Homelab main, subject to private repository access. Keep private

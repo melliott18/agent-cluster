@@ -3,8 +3,9 @@
 Deployed on `agent-cluster-01` under
 [agent-cluster#1](https://github.com/melliott18/agent-cluster/issues/1).
 [Verification record](../logs/2026-10-15-open-webui.md).
-This is a working authenticated interface. Model inference and the custom agent
-worker are not connected yet, so it cannot answer model-backed chat requests.
+This authenticated interface now answers through local Qwen3.5 9B inference.
+See [shared inference](shared-inference.md) for limits and availability. The custom
+autonomous worker remains pending.
 
 ## Access
 
@@ -57,16 +58,15 @@ sudo docker stats --no-stream agent-cluster-open-webui-1
   No Docker socket or hypervisor credential is mounted. The guest `agent` account
   remains outside the Docker group and has no sudo rights.
 - Limit: 1.5 GiB memory, no additional swap, two CPU equivalents, 512 processes;
-  one application worker. This leaves room within the 4 GiB VM for OS and later
-  lightweight services, subject to measurement.
+  one application worker. The guest now targets 2.5 GiB (4 GiB maximum retained).
+  Reassess capacity before adding other services.
 - External named volume `agent-cluster-webui-data` holds SQLite, uploaded data,
   and the generated signing key. `nocopy` preserves its initialized ownership.
   Compose `down` does not remove this external volume.
 - `restart: unless-stopped` plus enabled Docker provides service startup inside
   the guest. VM autostart remains off under Homelab policy.
-- Authentication is enabled and signup disabled. Model providers, direct provider
-  connections, cloud APIs, web search, community sharing and code execution are
-  disabled. Offline mode suppresses model/update downloads. The normal Docker
+- Authentication is enabled and signup disabled. Shared local Ollama is enabled; direct provider connections,
+  cloud APIs, web search, community sharing and code execution remain disabled. Offline mode suppresses model/update downloads. The normal Docker
   bridge still permits outbound networking; this is not an air gap.
 
 ## Reproduction
@@ -87,15 +87,13 @@ secrets) and `docker compose up -d`. After authenticating successfully, empty
 still work. The account hash and signing key persist in the data volume.
 Do not overwrite an existing installation or volume as a fresh bootstrap.
 
-## Connect inference later
+## Shared inference connection
 
-Provision the shared inference endpoint only after Homelab's capacity admission
-and GPU coexistence checks. Configure its private authenticated connection in
-Open WebUI and enable Ollama support; settings persisted in the database can
-supersede environment values. Do not point it at the benchmark container without
-an explicit service-sharing arrangement. The UI's model list is intentionally
-empty today. Slim has no local embedding/voice runtime: keep these disabled until
-local providers are configured. Do not select a cloud provider to fill that gap.
+Local Ollama is connected through the authenticated bounded gateway described in
+[shared inference](shared-inference.md). The default is Qwen3.5 9B Q4_K_M; the
+private URL/token and selected model persist in the database. Settings persisted
+there can supersede Compose defaults. Do not point the UI at Soren's benchmark
+container. Embeddings/voice and autonomous tools remain unconfigured.
 
 ## Recovery and rollback
 

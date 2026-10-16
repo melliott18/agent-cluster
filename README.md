@@ -2,9 +2,10 @@
 
 A private, locally hosted chatbot and autonomous task system for the Homelab.
 The core environment must work without paid model APIs, subscriptions, or cloud
-compute. Status: authenticated Open WebUI is deployed on the agent VM; shared
-inference and the custom agent worker are the next stages.
-[Open WebUI access and operations](docs/runbooks/open-webui.md).
+compute. Status: authenticated Open WebUI is connected to local Qwen3.5 9B
+inference; the custom autonomous worker is the next stage.
+[Open WebUI access](docs/runbooks/open-webui.md) ·
+[Shared inference operations](docs/runbooks/shared-inference.md).
 
 ## Start here
 

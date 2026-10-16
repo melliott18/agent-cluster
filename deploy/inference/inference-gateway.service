@@ -1,0 +1,23 @@
+[Unit]
+Description=Authenticated bounded local inference gateway
+After=network-online.target ollama.service
+
+[Service]
+User=inference-gateway
+Group=inference-gateway
+ExecStart=/usr/bin/python3 /opt/agent-inference/gateway.py
+Environment=INFERENCE_TOKEN_FILE=/etc/agent-inference/token
+EnvironmentFile=/etc/agent-inference/gateway.env
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+MemoryMax=128M
+TasksMax=32
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
