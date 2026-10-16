@@ -55,6 +55,38 @@ The initial VM allocation is implemented as described above.
 Historical cloud-provider options in Homelab are optional broader context;
 this project's required core is local.
 
+## Shared inference direction — October 15
+
+Owner decision: preserve the existing benchmark workload's direct GPU access
+and plan a shared local inference service. Do not pass the GPU exclusively to
+this VM. The VM remains the home for chat, agent tools and durable task state.
+
+Proposed first stack: Docker Engine/Compose and Open WebUI in the existing
+4 GiB VM; one Python/LangGraph worker with SQLite for durable tasks; one shared
+Ollama endpoint running `qwen3.5:9b-q4_K_M`, initially 8K context, one loaded model
+and one inference request at a time. Start with a bounded document-search/report
+task and restricted project files. These software choices remain recommendations,
+not accepted deployment or performance claims.
+
+Proposed inference placement is a dedicated GPU-enabled LXD container, separate
+from the benchmark workload. This needs an explicit scoped exception to the
+older inference-in-a-VM direction, along with Homelab capacity and access design.
+GPU sharing does not reserve VRAM or schedule arbitrary benchmark jobs. Use
+cooperative benchmark/inference windows and unload the model before benchmark
+runs; retain existing GPU access. Do not infer exclusivity from an idle sample.
+
+The latest read-only Homelab inspection found an idle GPU and an existing Ollama
+service with no models. Memory admission is still unresolved: retain the current
+VM allocation and host reserve, and budget inference loading before deployment.
+No software, resource allocation, driver, network or workload state was changed.
+This planning update is local on `docs/shared-inference-plan` in both projects;
+the deployed VM records remain published on main.
+
+References: [model package](https://ollama.com/library/qwen3.5:9b-q4_K_M),
+[Ollama concurrency/local-only controls](https://docs.ollama.com/faq),
+[Open WebUI setup](https://docs.openwebui.com/getting-started/quick-start/),
+[LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence).
+
 ## Next design decisions
 
 1. Select one useful initial task alongside chat, such as local document search
